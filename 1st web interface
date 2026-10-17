@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chinmaya Vishwa Vidhyapeeth — Campus Spaces</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap"
+    rel="stylesheet">
+  <style>
+    /* Reset & Base */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #f2efe8;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    :root {
+      --color-background: #f2efe8;
+      --color-foreground: #161513;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+     * NAVBAR HEADER
+     * ══════════════════════════════════════════════════════════ */
+    .navbar-header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px clamp(16px, 4vw, 56px);
+      background: color-mix(in srgb, var(--il-bg) 85%, transparent);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--il-line);
+      box-shadow: 0 1px 12px rgba(0, 0, 0, 0.03);
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+
+    .navbar-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+      user-select: none;
+    }
+
+    .navbar-logo-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 1px solid rgba(22, 21, 19, 0.1);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      padding: 5px;
+      flex-shrink: 0;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .navbar-brand:hover .navbar-logo-badge {
+      transform: scale(1.05);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.14);
+    }
+
+    .navbar-logo {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .navbar-title-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .navbar-title {
+      font-family: 'Cinzel', 'Newsreader', ui-serif, Georgia, serif;
+      font-size: clamp(15px, 1.4vw, 19px);
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      color: var(--il-ink);
+      line-height: 1.2;
+      transition: color 0.3s ease;
+    }
+
+    .navbar-sub {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--il-muted);
+      font-weight: 500;
+    }
+
+    .navbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Interactive controls bar */
+    .il-controls {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .il-badge-btn {
+      font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      background: rgba(22, 21, 19, 0.05);
+      border: 1px solid rgba(22, 21, 19, 0.12);
+      color: #161513;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.2, 0.7, 0.2, 1);
+      user-select: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .il-badge-btn:hover {
+      background: rgba(22, 21, 19, 0.1);
+      transform: translateY(-1px);
+    }
+
+    .il-badge-btn:active {
+      transform: translateY(0);
+      opacity: 0.85;
+    }
+
+    .il-badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #2a9d8f;
+      display: inline-block;
+      transition: background 0.3s ease;
+    }
+
+    .il-badge-dot.paused {
+      background: #e76f51;
+    }
+
+    /* Carousel Structure */
+    .il-root {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      height: 100svh;
+      display: grid;
+      grid-template-columns: minmax(260px, 42%) 1fr;
+      gap: clamp(16px, 3vw, 48px);
+      padding: clamp(76px, 10vh, 92px) clamp(16px, 4vw, 56px) clamp(16px, 3vw, 40px);
+      box-sizing: border-box;
+      overflow: hidden;
+      background: var(--il-bg);
+      color: var(--il-ink);
+      outline: none;
+      --il-bg: #f2efe8;
+      --il-ink: #161513;
+      --il-muted: color-mix(in srgb, var(--il-ink) 55%, transparent);
+      --il-faint: color-mix(in srgb, var(--il-ink) 28%, transparent);
+      --il-line: color-mix(in srgb, var(--il-ink) 12%, transparent);
+    }
+
+    @media (max-width: 680px) {
+      .navbar-sub {
+        display: none;
+      }
+      .navbar-title {
+        font-size: 13.5px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 175px;
+      }
+      .navbar-logo-badge {
+        width: 34px;
+        height: 34px;
+        padding: 3px;
+      }
+      .il-controls {
+        gap: 5px;
+      }
+      .il-badge-btn {
+        padding: 5px 9px;
+        font-size: 10px;
+      }
+      #sideBtn {
+        display: none !important;
+      }
+    }
+
+    .il-root[data-theme='dark'] {
+      --il-bg: #121110;
+      --il-ink: #f0ede6;
+    }
+
+    .il-root[data-theme='dark'] .il-badge-btn {
+      background: rgba(240, 237, 230, 0.08);
+      border-color: rgba(240, 237, 230, 0.18);
+      color: #f0ede6;
+    }
+
+    .il-root[data-theme='dark'] .il-badge-btn:hover {
+      background: rgba(240, 237, 230, 0.14);
+    }
+
+    .il-root[data-side='left'] {
+      grid-template-columns: 1fr minmax(260px, 42%);
+    }
+
+    .il-root[data-side='left'] .il-list {
+      order: 2;
+    }
+
+    .il-root:focus-visible {
+      box-shadow: inset 0 0 0 2px var(--il-ink);
+    }
+
+    .il-list {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      justify-content: safe center;
+      min-height: 0;
+      overflow: auto;
+      scrollbar-width: none;
+      overscroll-behavior: contain;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .il-list::-webkit-scrollbar {
+      display: none;
+    }
+
+    .il-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: clamp(12px, 2.4vh, 24px);
+      font: 500 12px/1 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--il-muted);
+    }
+
+    .il-row {
+      appearance: none;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      column-gap: 14px;
+      align-items: baseline;
+      width: 100%;
+      padding: 10px 0;
+      border: 0;
+      border-bottom: 1px solid var(--il-line);
+      background: transparent;
+      color: color-mix(in srgb, var(--il-ink) var(--tone, 28%), transparent);
+      position: relative;
+      animation: il-up .8s cubic-bezier(.2, .7, .2, 1) both;
+      animation-delay: calc(var(--i, 0) * 60ms + 120ms);
+      text-align: left;
+      cursor: pointer;
+      transition: color .45s ease, padding .45s cubic-bezier(.2, .7, .2, 1);
+    }
+
+    .il-row::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 7px;
+      bottom: 7px;
+      width: 2px;
+      border-radius: 2px;
+      background: var(--il-ink);
+      transform: scaleY(0);
+      transform-origin: top;
+      transition: transform .55s cubic-bezier(.2, .7, .2, 1);
+    }
+
+    .il-row[data-on='1']::before {
+      transform: scaleY(1);
+    }
+
+    @media (hover: hover) {
+      .il-row[data-on='0']:hover {
+        color: color-mix(in srgb, var(--il-ink) 64%, transparent);
+      }
+    }
+
+    .il-row:active {
+      opacity: .82;
+    }
+
+    .il-row:first-of-type {
+      border-top: 1px solid var(--il-line);
+    }
+
+    .il-row[data-on='1'] {
+      color: var(--il-ink);
+      padding-left: 12px;
+    }
+
+    .il-row:focus-visible {
+      outline: 2px solid var(--il-ink);
+      outline-offset: 2px;
+    }
+
+    .il-num {
+      font: 500 11px/1 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: .1em;
+      color: var(--il-muted);
+      font-variant-numeric: tabular-nums;
+      transition: color .45s ease;
+    }
+
+    .il-row[data-on='1'] .il-num {
+      color: var(--il-ink);
+    }
+
+    .il-count {
+      font-variant-numeric: tabular-nums;
+      color: var(--il-ink);
+    }
+
+    .il-count i {
+      font-style: normal;
+      color: var(--il-faint);
+      padding: 0 .15em;
+    }
+
+    .il-title {
+      font: 500 clamp(24px, 3.5vw, 50px)/1.06 'Newsreader', ui-serif, Georgia, 'Times New Roman', serif;
+      letter-spacing: -.02em;
+    }
+
+    .il-more {
+      grid-column: 2;
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows .45s cubic-bezier(.2, .7, .2, 1);
+    }
+
+    .il-row[data-on='1'] .il-more {
+      grid-template-rows: 1fr;
+    }
+
+    .il-more>span {
+      overflow: hidden;
+      font: 400 13.5px/1.5 'Inter', ui-sans-serif, system-ui, sans-serif;
+      color: var(--il-muted);
+      padding-top: 4px;
+      max-width: 34ch;
+    }
+
+    /* Sub-index list */
+    .il-sub {
+      grid-column: 2;
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows .5s cubic-bezier(.2, .7, .2, 1);
+    }
+
+    .il-row[data-on='1'] .il-sub {
+      grid-template-rows: 1fr;
+    }
+
+    .il-sub-inner {
+      overflow: hidden;
+      padding-top: 0;
+      transition: padding .35s ease;
+    }
+
+    .il-row[data-on='1'] .il-sub-inner {
+      padding-top: 8px;
+    }
+
+    .il-sub-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 8px;
+    }
+
+    .il-sub-item {
+      font: 500 11.5px/1 'Inter', ui-sans-serif, system-ui, sans-serif;
+      letter-spacing: 0.03em;
+      color: var(--il-muted);
+      padding: 5px 12px;
+      border-radius: 9999px;
+      border: 1px solid var(--il-line);
+      background: color-mix(in srgb, var(--il-ink) 4%, transparent);
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity .35s ease, transform .35s cubic-bezier(.2, .7, .2, 1), background .25s ease, color .25s ease, border-color .25s ease;
+      transition-delay: calc(var(--si, 0) * 50ms + 120ms);
+    }
+
+    .il-row[data-on='1'] .il-sub-item {
+      opacity: 1;
+      transform: none;
+    }
+
+    @media (hover: hover) {
+      .il-sub-item:hover {
+        background: color-mix(in srgb, var(--il-ink) 10%, transparent);
+        color: var(--il-ink);
+        border-color: color-mix(in srgb, var(--il-ink) 24%, transparent);
+      }
+    }
+
+    .il-sub-viewall {
+      background: color-mix(in srgb, var(--il-ink) 8%, transparent);
+      border-color: color-mix(in srgb, var(--il-ink) 18%, transparent);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+
+    .il-pane {
+      position: relative;
+      isolation: isolate;
+      min-height: 0;
+      overflow: hidden;
+      border-radius: clamp(6px, 1vw, 14px);
+      background: var(--il-line);
+    }
+
+    .il-pane::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      pointer-events: none;
+      border-radius: inherit;
+      background: linear-gradient(to top, rgba(0, 0, 0, .4), transparent 36%), linear-gradient(to bottom, rgba(0, 0, 0, .16), transparent 20%);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .08);
+    }
+
+    .il-ticks {
+      position: absolute;
+      left: clamp(12px, 2vw, 22px);
+      bottom: clamp(12px, 2vw, 22px);
+      right: clamp(12px, 2vw, 22px);
+      z-index: 4;
+      display: flex;
+      gap: 5px;
+      align-items: center;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .il-ticks i {
+      display: block;
+      flex: none;
+      width: 12px;
+      height: 2px;
+      border-radius: 2px;
+      background: rgba(255, 255, 255, .42);
+      transition: width .55s cubic-bezier(.2, .7, .2, 1), background .4s ease;
+    }
+
+    .il-ticks i[data-on='1'] {
+      width: 32px;
+      background: #fff;
+    }
+
+    @keyframes il-up {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    .il-pane img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      max-width: none;
+      object-fit: cover;
+      display: block;
+      visibility: hidden;
+      transform: scale(1.08);
+    }
+
+    .il-pane img[data-l='on'] {
+      visibility: visible;
+      z-index: 2;
+      clip-path: inset(0 0 0 0);
+      transform: none;
+      transition: clip-path .85s cubic-bezier(.7, 0, .2, 1), transform 1.3s cubic-bezier(.2, .7, .2, 1);
+    }
+
+    .il-pane img[data-l='was'] {
+      visibility: visible;
+      z-index: 1;
+      transform: none;
+    }
+
+    .il-pane img[data-l='after'] {
+      clip-path: inset(0 0 0 100%);
+    }
+
+    .il-pane img[data-l='before'] {
+      clip-path: inset(0 100% 0 0);
+    }
+
+    .il-sr {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+
+    @media (max-width: 720px) and (orientation: portrait) {
+
+      .il-root,
+      .il-root[data-side='left'] {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+        padding: 68px 16px 20px;
+        gap: 14px;
+        height: 100vh;
+        height: 100dvh;
+        overflow: hidden;
+      }
+
+      .il-pane {
+        order: 1;
+        height: clamp(160px, 28vh, 220px);
+        min-height: 160px;
+        max-height: 220px;
+        flex-shrink: 0;
+      }
+
+      .il-root .il-list {
+        order: 2;
+        justify-content: flex-start;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 24px;
+      }
+
+      .il-title {
+        font-size: clamp(22px, 5.5vw, 32px);
+      }
+
+      .il-row {
+        padding: 8px 0;
+      }
+    }
+
+    @media (pointer: coarse) {
+      .il-row {
+        min-height: 44px;
+      }
+    }
+
+    @media (orientation: landscape) and (max-height: 520px) {
+      .il-root[data-adapt='1'] {
+        padding: 12px clamp(16px, 4vw, 32px);
+        gap: clamp(14px, 3vw, 28px);
+        grid-template-columns: minmax(200px, 46%) 1fr;
+      }
+
+      .il-root[data-adapt='1'][data-side='left'] {
+        grid-template-columns: 1fr minmax(200px, 46%);
+      }
+
+      .il-root[data-adapt='1'] .il-label {
+        margin-bottom: 6px;
+      }
+
+      .il-root[data-adapt='1'] .il-row {
+        padding-top: 5px;
+        padding-bottom: 5px;
+      }
+
+      .il-root[data-adapt='1'] .il-title {
+        font-size: clamp(17px, 6vh, 28px);
+      }
+
+      .il-root[data-adapt='1'] .il-more>span {
+        font-size: 12px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .il-pane img {
+        transition: none !important;
+        transform: none;
+      }
+
+      .il-row,
+      .il-more,
+      .il-row::before,
+      .il-ticks i {
+        transition: none;
+      }
+
+      .il-row {
+        animation: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Carousel Root Element -->
+  <div class="il-root" id="carouselRoot" data-side="right" data-orient="landscape" data-adapt="1" role="region"
+    aria-roledescription="carousel" aria-label="Image carousel" tabindex="0">
+
+    <!-- Navbar Header -->
+    <header class="navbar-header" id="navbarHeader">
+      <a href="index.html" class="navbar-brand" title="Chinmaya Vishwa Vidhyapeeth">
+        <div class="navbar-logo-badge">
+          <img src="chinmaya_vishwavidyapeeth_logo.svg" alt="Chinmaya Vishwa Vidhyapeeth Logo" class="navbar-logo" />
+        </div>
+        <div class="navbar-title-wrap">
+          <span class="navbar-title">Chinmaya Vishwa Vidhyapeeth</span>
+          <span class="navbar-sub">Campus Spaces &amp; Navigation</span>
+        </div>
+      </a>
+
+      <div class="navbar-right">
+        <!-- Controls overlay -->
+        <div class="il-controls">
+          <button type="button" class="il-badge-btn" id="autoplayBtn" title="Toggle Autoplay">
+            <span class="il-badge-dot" id="autoplayDot"></span>
+            <span id="autoplayText">Auto 4.5s</span>
+          </button>
+          <button type="button" class="il-badge-btn" id="themeBtn" title="Switch Theme">
+            <span>Theme</span>
+          </button>
+          <button type="button" class="il-badge-btn" id="sideBtn" title="Flip Layout Side">
+            <span>Flip</span>
+          </button>
+        </div>
+      </div>
+    </header>
+    <!-- List of Titles & Descriptions -->
+    <div class="il-list" id="carouselList">
+      <div class="il-label" aria-hidden="true">
+        <span>TOP SPOTS</span>
+        <span class="il-count" id="carouselCount">
+          01 <i>/</i> 04
+        </span>
+      </div>
+
+      <!-- Slide buttons will be rendered here dynamically -->
+      <div id="rowContainer" style="display: contents;"></div>
+    </div>
+
+    <!-- Image Display Pane -->
+    <div class="il-pane" id="imagePane">
+      <!-- Generated images rendered here -->
+      <div class="il-ticks" id="ticksContainer" aria-hidden="true"></div>
+    </div>
+
+    <!-- Screen Reader Status Announcement -->
+    <div class="il-sr" id="screenReaderStatus" aria-live="polite"></div>
+  </div>
+
+  <script>
+    (function () {
+      "use strict";
+
+      /* ========================================================
+       * DATA & PALETTES
+       * ======================================================== */
+      const PALETTES = {
+        dawn: { top: "#e7b7a5", bottom: "#f8e8d6", sun: "#fff4df", far: "#d2b2bb", near: "#3a2a3b", mist: "255,240,232" },
+        alpine: { top: "#7ea5c8", bottom: "#e3ecf2", sun: "#ffffff", far: "#a9bfd0", near: "#1c3044", mist: "236,244,250" },
+        dusk: { top: "#2a2450", bottom: "#ef8d60", sun: "#ffd9a6", far: "#93607c", near: "#18121f", mist: "255,196,160" },
+        mist: { top: "#c4d0cb", bottom: "#eef1ec", sun: "#ffffff", far: "#aebcb5", near: "#2c3a33", mist: "246,248,245" },
+      };
+
+      const SLIDES = [
+        { title: "Large Area", caption: "Spacious open zones across campus.", palette: "dawn", seed: 3, subItems: ["Atrium", "Entrance", "Annakshetra", "Corridors"], link: "large-area.html" },
+        { title: "Study Area", caption: "Focused academic & learning spaces.", palette: "alpine", seed: 8, subItems: ["Classrooms", "Library", "Labs"], link: "study-area.html" },
+        { title: "Sports Area", caption: "Courts, fields & recreation grounds.", palette: "dusk", seed: 14, subItems: ["Basketball", "Football", "Badminton", "Table Tennis"], link: "sports-area.html" },
+        { title: "Miscellaneous", caption: "Everyday campus amenities.", palette: "mist", seed: 21, subItems: ["Cafeteria", "Garden", "Gym"], link: "miscellaneous.html" },
+      ];
+
+      /* ========================================================
+       * MATHEMATICAL & COLOR HELPERS
+       * ======================================================== */
+      function wrap(i, n) {
+        return n ? ((i % n) + n) % n : 0;
+      }
+
+      function pad2(n) {
+        return n < 10 ? "0" + n : String(n);
+      }
+
+      function layerOf(i, active, previous) {
+        return i === active ? "on" : i === previous ? "was" : i > active ? "after" : "before";
+      }
+
+      function mulberry32(seed) {
+        let a = seed >>> 0;
+        return () => {
+          a = (a + 0x6d2b79f5) >>> 0;
+          let t = a;
+          t = Math.imul(t ^ (t >>> 15), t | 1);
+          t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+
+      function hexRgb(h) {
+        const v = parseInt(h.replace("#", ""), 16);
+        return [(v >> 16) & 255, (v >> 8) & 255, v & 255];
+      }
+
+      function mixRgb(a, b, t) {
+        const A = hexRgb(a);
+        const B = hexRgb(b);
+        return "rgb(" + A.map((v, i) => Math.round(v + (B[i] - v) * t)).join(",") + ")";
+      }
+
+      /* ========================================================
+       * PROCEDURAL CANVAS LANDSCAPE GENERATION
+       * ======================================================== */
+      function paintLandscape(seed, palette, w = 1600, h = 1000) {
+        const c = document.createElement("canvas");
+        c.width = w;
+        c.height = h;
+        const g = c.getContext("2d");
+        if (!g) return "";
+        const P = PALETTES[palette] || PALETTES.dawn;
+        const r = mulberry32(seed * 104729 + 7);
+
+        // Sky gradient
+        const sky = g.createLinearGradient(0, 0, 0, h * 0.72);
+        sky.addColorStop(0, P.top);
+        sky.addColorStop(1, P.bottom);
+        g.fillStyle = sky;
+        g.fillRect(0, 0, w, h);
+
+        // Sun halo and disc
+        const sx = w * (0.22 + r() * 0.56);
+        const sy = h * (0.26 + r() * 0.16);
+        const halo = g.createRadialGradient(sx, sy, 0, sx, sy, w * 0.45);
+        halo.addColorStop(0, "rgba(" + hexRgb(P.sun).join(",") + ",.85)");
+        halo.addColorStop(0.08, "rgba(" + hexRgb(P.sun).join(",") + ",.55)");
+        halo.addColorStop(1, "rgba(" + hexRgb(P.sun).join(",") + ",0)");
+        g.fillStyle = halo;
+        g.fillRect(0, 0, w, h);
+        g.fillStyle = P.sun;
+        g.beginPath();
+        g.arc(sx, sy, h * 0.045, 0, Math.PI * 2);
+        g.fill();
+
+        // Layered mountain ridges
+        const layers = 5;
+        for (let L = 0; L < layers; L++) {
+          const k = L / (layers - 1);
+          const base = h * (0.42 + k * 0.4);
+          const amp = h * (0.07 + k * 0.1);
+          const ph = [r(), r(), r(), r()].map((v) => v * Math.PI * 2);
+          const fr = [1.3 + r(), 3.1 + r() * 2, 7 + r() * 4, 17 + r() * 8];
+          const ridge = (x) => {
+            const u = x / w;
+            return (
+              base -
+              amp *
+              (0.55 * Math.sin(u * fr[0] + ph[0]) +
+                0.28 * Math.sin(u * fr[1] + ph[1]) +
+                0.12 * Math.abs(Math.sin(u * fr[2] + ph[2])) +
+                0.05 * Math.sin(u * fr[3] + ph[3]))
+            );
+          };
+
+          // Mist between ridges
+          const mist = g.createLinearGradient(0, base - amp * 1.4, 0, base + amp * 0.4);
+          mist.addColorStop(0, "rgba(" + P.mist + ",0)");
+          mist.addColorStop(1, "rgba(" + P.mist + "," + (0.55 - k * 0.35).toFixed(2) + ")");
+          g.fillStyle = mist;
+          g.fillRect(0, base - amp * 1.4, w, amp * 1.8);
+
+          // Mountain body gradient
+          const body = g.createLinearGradient(0, base - amp, 0, h);
+          body.addColorStop(0, mixRgb(P.far, P.near, Math.pow(k, 1.3)));
+          body.addColorStop(1, mixRgb(P.far, P.near, Math.min(1, Math.pow(k, 1.3) + 0.18)));
+          g.fillStyle = body;
+          g.beginPath();
+          g.moveTo(0, h);
+          for (let x = 0; x <= w; x += 6) g.lineTo(x, ridge(x));
+          g.lineTo(w, h);
+          g.closePath();
+          g.fill();
+
+          // Tree silhouettes on closest foreground ridges
+          if (L >= layers - 2) {
+            g.fillStyle = mixRgb(P.far, P.near, Math.min(1, Math.pow(k, 1.3) + 0.08));
+            for (let x = 0; x < w; x += 7 + r() * 9) {
+              if (r() < 0.35) continue;
+              const y = ridge(x) + 2;
+              const th = h * (0.025 + r() * 0.035) * (0.6 + k);
+              const tw = th * 0.32;
+              g.beginPath();
+              g.moveTo(x, y - th);
+              g.lineTo(x + tw, y);
+              g.lineTo(x - tw, y);
+              g.closePath();
+              g.fill();
+            }
+          }
+        }
+
+        // Vignette
+        const vig = g.createRadialGradient(w / 2, h * 0.45, h * 0.3, w / 2, h / 2, w * 0.78);
+        vig.addColorStop(0, "rgba(0,0,0,0)");
+        vig.addColorStop(1, "rgba(0,0,0,.32)");
+        g.fillStyle = vig;
+        g.fillRect(0, 0, w, h);
+
+        // Film grain overlay
+        const grain = g.getImageData(0, 0, w, h);
+        const d = grain.data;
+        for (let i = 0; i < d.length; i += 4) {
+          const v = (r() - 0.5) * 14;
+          d[i] += v;
+          d[i + 1] += v;
+          d[i + 2] += v;
+        }
+        g.putImageData(grain, 0, 0);
+
+        return c.toDataURL("image/jpeg", 0.88);
+      }
+
+      /* ========================================================
+       * CAROUSEL CONTROLLER STATE & CONFIGURATION
+       * ======================================================== */
+      const config = {
+        autoplay: 4500,
+        hover: false,
+        touchSwipe: true,
+        touchStep: 56,
+        orientationAware: true,
+        wheelThreshold: 40,
+        wheelCooldown: 450,
+      };
+
+      const n = SLIDES.length;
+      let active = 0;
+      let previous = -1;
+      let isInside = false;
+      let lastTouch = 0;
+      let wheelAcc = 0;
+      let wheelLast = 0;
+      let suppressClick = false;
+      let autoplayTimer = null;
+      let isAutoplayRunning = true;
+
+      // DOM Elements
+      const root = document.getElementById("carouselRoot");
+      const listEl = document.getElementById("carouselList");
+      const rowContainer = document.getElementById("rowContainer");
+      const imagePane = document.getElementById("imagePane");
+      const ticksContainer = document.getElementById("ticksContainer");
+      const carouselCount = document.getElementById("carouselCount");
+      const screenReaderStatus = document.getElementById("screenReaderStatus");
+
+      const autoplayBtn = document.getElementById("autoplayBtn");
+      const autoplayDot = document.getElementById("autoplayDot");
+      const autoplayText = document.getElementById("autoplayText");
+      const themeBtn = document.getElementById("themeBtn");
+      const sideBtn = document.getElementById("sideBtn");
+
+      /* ========================================================
+       * BUILD CAROUSEL DOM
+       * ======================================================== */
+      const rowButtons = [];
+      const imageElements = [];
+      const tickElements = [];
+
+      // Generate images and build DOM
+      SLIDES.forEach((slide, i) => {
+        // 1. Create Row Button (using div with role='button' to allow valid nested pill links)
+        const btn = document.createElement("div");
+        btn.className = "il-row";
+        btn.setAttribute("role", "button");
+        btn.setAttribute("tabindex", "0");
+        btn.style.setProperty("--i", i);
+        btn.style.setProperty("--tone", Math.max(14, 46 - Math.abs(i - active) * 9) + "%");
+        btn.setAttribute("data-on", i === active ? "1" : "0");
+        if (i === active) btn.setAttribute("aria-current", "true");
+
+        const slideLink = slide.link || "#";
+        const subHtml = (slide.subItems && slide.subItems.length)
+          ? `<div class="il-sub"><div class="il-sub-inner"><ul class="il-sub-list">${slide.subItems.map((s, si) => `<li class="il-sub-item" style="--si:${si}" data-link="${slideLink}">${s}</li>`).join("")}<li class="il-sub-item il-sub-viewall" style="--si:${slide.subItems.length}" data-link="${slideLink}">View All →</li></ul></div></div>`
+          : "";
+
+        btn.innerHTML = `
+          <span class="il-num">${pad2(i + 1)}</span>
+          <span class="il-title">${slide.title || "Untitled"}</span>
+          ${slide.caption
+            ? `<span class="il-more"><span>${slide.caption}</span></span>`
+            : ""
+          }
+          ${subHtml}
+        `;
+
+        if (config.hover) {
+          btn.addEventListener("mouseenter", () => show(i));
+        }
+
+        btn.addEventListener("focus", () => {
+          if (!suppressClick) show(i);
+        });
+
+        btn.addEventListener("click", (e) => {
+          if (suppressClick) return;
+          if (e.target.closest(".il-sub-item")) return;
+          lastTouch = performance.now();
+          if (i === active) {
+            if (slide.link && slide.link !== "#") {
+              window.location.href = slide.link;
+            }
+          } else {
+            show(i);
+          }
+        });
+
+        btn.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            btn.click();
+          }
+        });
+
+        rowContainer.appendChild(btn);
+        rowButtons.push(btn);
+
+        // 2. Create Image Element
+        const img = document.createElement("img");
+        img.draggable = false;
+        img.alt = i === active ? slide.title || "" : "";
+        img.setAttribute("data-l", layerOf(i, active, previous));
+        // Procedurally paint landscape
+        const dataUrl = slide.image || paintLandscape(slide.seed || i + 1, slide.palette || "dawn");
+        img.src = dataUrl;
+
+        imagePane.insertBefore(img, ticksContainer);
+        imageElements.push(img);
+
+        // 3. Create Tick Indicator
+        const tick = document.createElement("i");
+        tick.setAttribute("data-on", i === active ? "1" : "0");
+        ticksContainer.appendChild(tick);
+        tickElements.push(tick);
+      });
+
+      /* ========================================================
+       * VIEW RECENTERING
+       * ======================================================== */
+      function recenter(smooth = true) {
+        if (!listEl || listEl.scrollHeight <= listEl.clientHeight + 1) return;
+        const row = rowButtons[active];
+        if (!row) return;
+        const lr = listEl.getBoundingClientRect();
+        const rr = row.getBoundingClientRect();
+        const delta = rr.top - lr.top - (lr.height - rr.height) / 2;
+        const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        listEl.scrollTo({
+          top: listEl.scrollTop + delta,
+          behavior: smooth && !reduce ? "smooth" : "auto",
+        });
+      }
+
+      /* ========================================================
+       * SWITCH SLIDE (SHOW)
+       * ======================================================== */
+      function show(index) {
+        if (index === active && previous !== -1) return;
+        previous = active;
+        active = index;
+
+        // 1. Update List Buttons
+        rowButtons.forEach((btn, i) => {
+          const isOn = i === active;
+          btn.setAttribute("data-on", isOn ? "1" : "0");
+          if (isOn) {
+            btn.setAttribute("aria-current", "true");
+          } else {
+            btn.removeAttribute("aria-current");
+          }
+          btn.style.setProperty("--tone", Math.max(14, 46 - Math.abs(i - active) * 9) + "%");
+        });
+
+        // 2. Update Header Counter
+        carouselCount.innerHTML = `${pad2(active + 1)} <i>/</i> ${pad2(n)}`;
+
+        // 3. Update Image Layers (Triggers wipe transitions)
+        imageElements.forEach((img, i) => {
+          img.setAttribute("data-l", layerOf(i, active, previous));
+          if (i === active) {
+            img.alt = SLIDES[i].title || "";
+          }
+        });
+
+        // 4. Update Progress Ticks
+        tickElements.forEach((tick, i) => {
+          tick.setAttribute("data-on", i === active ? "1" : "0");
+        });
+
+        // 5. Update Screen Reader text
+        const currentSlide = SLIDES[active] || {};
+        screenReaderStatus.textContent = `${currentSlide.title || "Slide " + (active + 1)}, ${active + 1} of ${n}`;
+
+        // 6. Recenter row in list viewport
+        recenter(true);
+      }
+
+      /* ========================================================
+       * AUTOPLAY
+       * ======================================================== */
+      function startAutoplay() {
+        if (autoplayTimer) clearInterval(autoplayTimer);
+        autoplayTimer = setInterval(() => {
+          if (!isAutoplayRunning || document.hidden || isInside || performance.now() - lastTouch < config.autoplay) {
+            return;
+          }
+          show(wrap(active + 1, n));
+        }, config.autoplay);
+      }
+
+      startAutoplay();
+
+      // Pause/resume when user interacts
+      root.addEventListener("pointerenter", (e) => {
+        if (e.pointerType === "mouse") isInside = true;
+      });
+      root.addEventListener("pointerleave", () => {
+        isInside = false;
+      });
+
+      /* ========================================================
+       * MOUSE WHEEL CONTROL
+       * ======================================================== */
+      listEl.addEventListener("wheel", (e) => {
+        if (e.ctrlKey) return; // allow pinch zoom
+        const raw = Math.abs(e.deltaY) >= Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+        if (!raw) return;
+        const dy = e.deltaMode === 1 ? raw * 16 : e.deltaMode === 2 ? raw * 400 : raw;
+        const dir = dy > 0 ? 1 : -1;
+        const next = active + dir;
+        if (next < 0 || next >= n) {
+          wheelAcc = 0;
+          return; // Let native page scroll at bounds
+        }
+        e.preventDefault();
+        const now = performance.now();
+        lastTouch = now;
+        if (now - wheelLast < config.wheelCooldown) return;
+        if (wheelAcc !== 0 && Math.sign(wheelAcc) !== dir) wheelAcc = 0;
+        wheelAcc += dy;
+        if (Math.abs(wheelAcc) < config.wheelThreshold) return;
+        wheelAcc = 0;
+        wheelLast = now;
+        show(next);
+      }, { passive: false });
+
+      /* ========================================================
+       * IMAGE PANE CLICK & TOUCH SWIPE GESTURE
+       * ======================================================== */
+      imagePane.style.cursor = "pointer";
+      imagePane.setAttribute("title", "Click to explore this campus space");
+      imagePane.addEventListener("click", () => {
+        if (suppressClick) return;
+        const cur = SLIDES[active];
+        if (cur && cur.link && cur.link !== "#") {
+          window.location.href = cur.link;
+        }
+      });
+
+      if (config.touchSwipe && n >= 2) {
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let isSwiping = false;
+
+        imagePane.addEventListener("touchstart", (e) => {
+          if (e.touches.length !== 1) return;
+          touchStartX = e.touches[0].clientX;
+          touchStartY = e.touches[0].clientY;
+          isSwiping = false;
+          isInside = true;
+          lastTouch = performance.now();
+        }, { passive: true });
+
+        imagePane.addEventListener("touchmove", (e) => {
+          if (e.touches.length !== 1) return;
+          const dx = e.touches[0].clientX - touchStartX;
+          const dy = e.touches[0].clientY - touchStartY;
+          if (Math.abs(dx) > 20 && Math.abs(dx) > Math.abs(dy)) {
+            isSwiping = true;
+            suppressClick = true;
+          }
+        }, { passive: true });
+
+        imagePane.addEventListener("touchend", (e) => {
+          isInside = false;
+          lastTouch = performance.now();
+          if (e.changedTouches.length !== 1) return;
+          const dx = e.changedTouches[0].clientX - touchStartX;
+          const dy = e.changedTouches[0].clientY - touchStartY;
+          if (Math.abs(dx) > 35 && Math.abs(dx) > Math.abs(dy) * 1.3) {
+            if (dx < 0) {
+              show(wrap(active + 1, n));
+            } else {
+              show(wrap(active - 1, n));
+            }
+          }
+          if (isSwiping) {
+            setTimeout(() => { suppressClick = false; }, 200);
+          }
+        }, { passive: true });
+      }
+
+      /* ========================================================
+       * KEYBOARD NAVIGATION
+       * ======================================================== */
+      root.addEventListener("keydown", (e) => {
+        let d = 0;
+        if (e.key === "ArrowDown" || e.key === "ArrowRight") d = 1;
+        else if (e.key === "ArrowUp" || e.key === "ArrowLeft") d = -1;
+        else return;
+
+        e.preventDefault();
+        lastTouch = performance.now();
+        show(wrap(active + d, n));
+      });
+
+      /* ========================================================
+       * ORIENTATION & RESIZING
+       * ======================================================== */
+      if (config.orientationAware) {
+        const mq = window.matchMedia("(orientation: portrait)");
+        let raf = 0;
+        const schedule = () => {
+          cancelAnimationFrame(raf);
+          raf = requestAnimationFrame(() => recenter(false));
+        };
+        const sync = () => {
+          root.setAttribute("data-orient", mq.matches ? "portrait" : "landscape");
+          schedule();
+        };
+        sync();
+        mq.addEventListener("change", sync);
+        window.addEventListener("resize", schedule);
+        if (window.visualViewport) {
+          window.visualViewport.addEventListener("resize", schedule);
+        }
+      }
+
+      /* ========================================================
+       * TOP CONTROLS: AUTOPLAY, THEME, FLIP SIDE
+       * ======================================================== */
+      autoplayBtn.addEventListener("click", () => {
+        isAutoplayRunning = !isAutoplayRunning;
+        if (isAutoplayRunning) {
+          autoplayDot.classList.remove("paused");
+          autoplayText.textContent = "Auto 4.5s";
+        } else {
+          autoplayDot.classList.add("paused");
+          autoplayText.textContent = "Paused";
+        }
+      });
+
+      themeBtn.addEventListener("click", () => {
+        const currentTheme = root.getAttribute("data-theme") || "light";
+        const newTheme = currentTheme === "dark" ? "light" : "dark";
+        root.setAttribute("data-theme", newTheme);
+      });
+
+      sideBtn.addEventListener("click", () => {
+        const currentSide = root.getAttribute("data-side") || "right";
+        const newSide = currentSide === "left" ? "right" : "left";
+        root.setAttribute("data-side", newSide);
+      });
+
+      // Initial focus readiness
+      recenter(false);
+
+      /* ========================================================
+       * SUB-ITEM PILL NAVIGATION
+       * ======================================================== */
+      document.addEventListener("click", (e) => {
+        const pill = e.target.closest(".il-sub-item");
+        if (!pill) return;
+        const link = pill.getAttribute("data-link");
+        if (link && link !== "#") {
+          e.preventDefault();
+          e.stopPropagation();
+          window.location.href = link;
+        }
+      });
+    })();
+  </script>
+</body>
+
+</html>
